@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HousingBridge | Property Audit Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://lucide.dev/icons/lucide.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+      }
+      .audit-card {
+        transition: transform 0.2s ease;
+      }
+      .audit-card:hover {
+        transform: translateY(-4px);
+      }
+    </style>
+  </head>
+  <body class="p-4 md:p-8">
+    <div class="max-w-5xl mx-auto">
+      <!-- Header -->
+      <header
+        class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4"
+      >
+        <div>
+          <h1 class="text-3xl font-bold text-slate-900">HousingBridge Audit</h1>
+          <p class="text-slate-500">
+            Technical verification for peaceful living in Vancouver.
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <span
+            class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium"
+            >Engineer: Kazuma Kunogi</span
+          >
+        </div>
+      </header>
+
+      <!-- Audit Input Area -->
+      <div
+        class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8"
+      >
+        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+          <i data-lucide="search" class="w-5 h-5 text-blue-600"></i> New
+          Property Audit
+        </h2>
+        <div class="flex flex-col md:flex-row gap-4">
+          <input
+            type="text"
+            id="propertyUrl"
+            placeholder="Paste Craigslist or FB Marketplace URL..."
+            class="flex-1 px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50"
+          />
+          <button
+            onclick="startAudit()"
+            class="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition"
+          >
+            Run Audit Engine
+          </button>
+        </div>
+      </div>
+
+      <!-- Audit Results (Mockup of the "System" Output) -->
+      <div id="results" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Summary Score -->
+        <div
+          class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 audit-card col-span-1 md:col-span-3"
+        >
+          <div
+            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+          >
+            <div>
+              <h3
+                class="text-sm font-bold text-slate-400 uppercase tracking-widest"
+              >
+                Trust Score
+              </h3>
+              <div class="text-6xl font-bold text-green-600">
+                88<span class="text-2xl text-slate-300">/100</span>
+              </div>
+              <p class="text-green-700 font-medium mt-2">
+                Verified: Highly Likely Genuine
+              </p>
+            </div>
+            <div class="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+              <div class="p-4 bg-slate-50 rounded-xl">
+                <span class="text-xs text-slate-500 block">Price Match</span>
+                <span class="font-bold text-slate-900">Safe (-5%)</span>
+              </div>
+              <div class="p-4 bg-slate-50 rounded-xl">
+                <span class="text-xs text-slate-500 block"
+                  >Image Integrity</span
+                >
+                <span class="font-bold text-slate-900">Original</span>
+              </div>
+              <div class="p-4 bg-slate-50 rounded-xl">
+                <span class="text-xs text-slate-500 block">Transit Score</span>
+                <span class="font-bold text-slate-900">9.2/10</span>
+              </div>
+              <div class="p-4 bg-slate-50 rounded-xl">
+                <span class="text-xs text-slate-500 block">Host History</span>
+                <span class="font-bold text-slate-900 text-yellow-600"
+                  >New User</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Metrics -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+          <h4 class="font-bold mb-4 flex items-center gap-2">
+            <i data-lucide="shield-check" class="text-blue-500"></i> Forensic
+            Data
+          </h4>
+          <ul class="space-y-3 text-sm text-slate-600">
+            <li class="flex justify-between">
+              <span>Reverse Image Check</span>
+              <span class="text-green-600 font-medium">Pass</span>
+            </li>
+            <li class="flex justify-between">
+              <span>Domain Auth</span>
+              <span class="text-green-600 font-medium">Verified</span>
+            </li>
+            <li class="flex justify-between">
+              <span>Address Check</span>
+              <span class="text-green-600 font-medium">Residential</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+          <h4 class="font-bold mb-4 flex items-center gap-2">
+            <i data-lucide="map" class="text-blue-500"></i> Local Amenities
+          </h4>
+          <ul class="space-y-3 text-sm text-slate-600">
+            <li class="flex justify-between">
+              <span>Nearest Skytrain</span>
+              <span class="text-slate-900 font-medium">400m</span>
+            </li>
+            <li class="flex justify-between">
+              <span>Grocery Store</span>
+              <span class="text-slate-900 font-medium">2 min walk</span>
+            </li>
+            <li class="flex justify-between">
+              <span>Crime Rate Area</span>
+              <span class="text-green-600 font-medium">Low</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+          <h4 class="font-bold mb-4 flex items-center gap-2">
+            <i data-lucide="file-text" class="text-blue-500"></i> Contract Risks
+          </h4>
+          <ul class="space-y-3 text-sm text-slate-600">
+            <li class="flex justify-between">
+              <span>Illegal Clauses</span>
+              <span class="text-green-600 font-medium">None Found</span>
+            </li>
+            <li class="flex justify-between">
+              <span>Deposit Limit</span>
+              <span class="text-slate-900 font-medium">50% Monthly</span>
+            </li>
+            <li class="flex justify-between">
+              <span>Mediation Required</span>
+              <span class="text-slate-900 font-medium">Recommended</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Professional Footer -->
+      <footer
+        class="mt-12 pt-8 border-t border-slate-200 text-center text-slate-400 text-xs"
+      >
+        &copy; 2026 HousingBridge System | Built by Kazuma Kunogi (BCIT
+        Engineer)
+      </footer>
+    </div>
+
+    <script>
+      lucide.createIcons();
+      function startAudit() {
+        const url = document.getElementById("propertyUrl").value;
+        if (!url) return alert("Please paste a URL first.");
+
+        // This is where your Python/Firebase logic will eventually plug in
+        alert("System Initialized: Running technical forensic audit on " + url);
+      }
+    </script>
+  </body>
+</html>
