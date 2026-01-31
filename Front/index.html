@@ -1,0 +1,325 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HousingBridge OS | Technical Audit Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+      }
+      .shimmer {
+        background: linear-gradient(
+          90deg,
+          #f0f0f0 25%,
+          #f8f8f8 50%,
+          #f0f0f0 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-[#f8fafc] text-slate-900 min-h-screen">
+    <!-- Signature Badge -->
+    <div class="fixed top-6 right-6 z-50 pointer-events-none">
+      <div
+        class="bg-slate-900 text-white px-5 py-2.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700"
+      >
+        <div class="flex h-2 w-2 relative">
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+          ></span>
+          <span
+            class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"
+          ></span>
+        </div>
+        <span class="text-[11px] font-black uppercase tracking-[0.2em]"
+          >Signature Project</span
+        >
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav
+      class="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/70 backdrop-blur-xl"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-blue-500/20"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <div>
+            <span
+              class="block text-xl font-extrabold tracking-tight text-slate-900"
+              >HousingBridge <span class="text-blue-600">OS</span></span
+            >
+            <span
+              class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+              >Vancouver Audit Protocol</span
+            >
+          </div>
+        </div>
+        <div class="hidden md:flex items-center gap-6">
+          <div class="flex flex-col items-end">
+            <span
+              class="text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+              >Network Status</span
+            >
+            <span class="text-sm font-extrabold text-emerald-600"
+              >PRODUCTION READY</span
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+      <!-- Hero Header -->
+      <div class="mb-12">
+        <h1
+          class="text-5xl font-extrabold text-slate-900 tracking-tight leading-tight"
+        >
+          Forensic Rental <br /><span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600"
+            >Audit Suite</span
+          >
+        </h1>
+        <p class="text-lg text-slate-500 mt-4 max-w-2xl font-medium">
+          Professional-grade intelligence tool for verifying Vancouver housing
+          listings against known scam signatures and market data.
+        </p>
+      </div>
+
+      <!-- Analysis Input -->
+      <div
+        class="glass-card p-10 rounded-[2.5rem] shadow-sm mb-12 relative overflow-hidden"
+      >
+        <div class="absolute top-0 right-0 p-8">
+          <svg
+            class="text-slate-100"
+            width="120"
+            height="120"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+            ></path>
+          </svg>
+        </div>
+
+        <div class="relative z-10">
+          <label
+            class="block text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-4"
+            >Target URL Source</label
+          >
+          <div class="flex flex-col md:flex-row gap-4">
+            <input
+              type="text"
+              placeholder="Paste Craigslist, FB Marketplace, or Zumper URL here..."
+              class="flex-grow bg-white border-2 border-slate-100 px-6 py-5 rounded-2xl text-slate-700 font-semibold focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all text-lg shadow-inner"
+            />
+            <button
+              class="bg-slate-900 hover:bg-blue-600 text-white px-10 py-5 rounded-2xl font-black text-lg transition-all active:scale-95 shadow-2xl shadow-slate-900/20"
+            >
+              Run Audit
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Intelligence Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          class="glass-card p-8 rounded-3xl group hover:border-blue-200 transition-all cursor-default"
+        >
+          <div
+            class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h3
+            class="text-xs font-black text-slate-400 uppercase tracking-widest"
+          >
+            Verification Score
+          </h3>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-5xl font-black text-slate-900">--</span>
+            <span class="text-slate-300 font-bold text-xl">%</span>
+          </div>
+          <div
+            class="mt-4 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden"
+          >
+            <div class="h-full bg-slate-200 shimmer" style="width: 100%"></div>
+          </div>
+        </div>
+
+        <div
+          class="glass-card p-8 rounded-3xl group hover:border-amber-200 transition-all cursor-default"
+        >
+          <div
+            class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-amber-500 group-hover:text-white transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+              ></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </div>
+          <h3
+            class="text-xs font-black text-slate-400 uppercase tracking-widest"
+          >
+            Threat Level
+          </h3>
+          <div class="mt-2">
+            <span
+              class="text-4xl font-black text-slate-200 italic tracking-tighter"
+              >WAITING...</span
+            >
+          </div>
+          <p class="text-slate-400 text-[10px] font-bold mt-4">
+            REAL-TIME SIGNATURE MATCHING ACTIVE
+          </p>
+        </div>
+
+        <div
+          class="glass-card p-8 rounded-3xl group hover:border-emerald-200 transition-all cursor-default"
+        >
+          <div
+            class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          <h3
+            class="text-xs font-black text-slate-400 uppercase tracking-widest"
+          >
+            Data Points
+          </h3>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-5xl font-black text-slate-900">0</span>
+            <span class="text-slate-300 font-bold text-xl">/ 14</span>
+          </div>
+          <p class="text-slate-400 text-xs font-semibold mt-4 italic">
+            No anomalies detected in current buffer.
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="mt-24 pb-20 pt-10 px-6">
+      <div class="max-w-6xl mx-auto flex flex-col items-center">
+        <div
+          class="w-px h-16 bg-gradient-to-b from-transparent to-slate-200 mb-10"
+        ></div>
+        <div class="flex items-center gap-6 mb-8">
+          <div class="h-[1px] w-12 bg-slate-200"></div>
+          <div
+            class="text-xs font-black text-slate-400 uppercase tracking-[0.4em]"
+          >
+            Audit Lead
+          </div>
+          <div class="h-[1px] w-12 bg-slate-200"></div>
+        </div>
+        <h4 class="text-2xl font-black text-slate-900 tracking-tight">
+          Kazuma Kunogi
+        </h4>
+        <p
+          class="text-slate-400 font-bold text-[11px] mt-2 uppercase tracking-[0.2em]"
+        >
+          Full-Stack Engineer • Vancouver, BC
+        </p>
+
+        <div class="mt-12 flex gap-4">
+          <div
+            class="px-4 py-2 rounded-full border border-slate-200 text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+          >
+            BCIT CST
+          </div>
+          <div
+            class="px-4 py-2 rounded-full border border-slate-200 text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+          >
+            React/Node.js
+          </div>
+          <div
+            class="px-4 py-2 rounded-full border border-slate-200 text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+          >
+            GovTech Compliance
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
