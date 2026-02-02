@@ -27,12 +27,8 @@ class PropertyAuditEngine:
 
         # Extract Price - try multiple selectors
         price = 0
-        price_selectors = [
-            ('class', 'price'),
-            ('class', 'postingtitletext'),
-            ('class', 'attrgroup'),
-        ]
-        for selector_type, selector_value in price_selectors:
+        price_selectors = ['price', 'postingtitletext', 'attrgroup']
+        for selector_value in price_selectors:
             tag = soup.find(class_=selector_value)
             if tag:
                 numbers = re.findall(r'\$[\d,]+', tag.get_text())
@@ -53,35 +49,53 @@ class PropertyAuditEngine:
             desc = soup.find(class_='body')
         self.data['description'] = desc.get_text(strip=True) if desc else ""
 
-        # Extract Neighborhood - try multiple approaches
+        # Extract Neighborhood - try multiple approaches (most specific first)
         neighborhood = "Unknown"
 
-        # Try 1: Look for neighborhood in title area
-        title_area = soup.find(class_='postingtitletext')
-        if title_area:
-            small_tag = title_area.find('small')
-            if small_tag:
-                neighborhood = small_tag.get_text(strip=True).strip('() ')
+        # Try 1: Look in mapaddress (most specific - actual street address)
+        map_addr = soup.find(class_='mapaddress')
+        if map_addr:
+            addr_text = map_addr.get_text(strip=True)
+            if addr_text and len(addr_text) > 3:
+                neighborhood = addr_text
 
-        # Try 2: Look in mapaddress
+        # Try 2: Look for neighborhood in title area (in parentheses)
         if neighborhood == "Unknown":
-            map_addr = soup.find(class_='mapaddress')
-            if map_addr:
-                neighborhood = map_addr.get_text(strip=True)
+            title_area = soup.find(class_='postingtitletext')
+            if title_area:
+                small_tag = title_area.find('small')
+                if small_tag:
+                    hood_text = small_tag.get_text(strip=True).strip('() ')
+                    if hood_text and len(hood_text) > 2:
+                        neighborhood = hood_text
 
-        # Try 3: Look for any location data in meta tags
+        # Try 3: Look for location in posting body or attributes
         if neighborhood == "Unknown":
-            geo_region = soup.find('meta', {'name': 'geo.region'})
-            if geo_region and geo_region.get('content'):
-                neighborhood = geo_region.get('content')
+            # Check for "near" mentions in attrgroup
+            for attr in soup.find_all(class_='attrgroup'):
+                spans = attr.find_all('span')
+                for span in spans:
+                    text = span.get_text(strip=True)
+                    if text and not text.startswith(('$', 'ft', 'br', 'ba')):
+                        if any(word in text.lower() for word in ['near', 'downtown', 'west', 'east', 'north', 'south', 'street', 'ave', 'drive', 'road']):
+                            neighborhood = text
+                            break
 
-        # Try 4: Extract from breadcrumbs or header
+        # Try 4: Extract from page title
         if neighborhood == "Unknown":
-            breadcrumbs = soup.find(class_='breadcrumbs')
-            if breadcrumbs:
-                links = breadcrumbs.find_all('a')
-                if len(links) >= 2:
-                    neighborhood = links[-1].get_text(strip=True)
+            title_tag = soup.find('title')
+            if title_tag:
+                title_text = title_tag.get_text()
+                # Craigslist titles often have location in parentheses
+                match = re.search(r'\(([^)]+)\)', title_text)
+                if match:
+                    neighborhood = match.group(1)
+
+        # Try 5: Look for geo.placename meta tag (more specific than geo.region)
+        if neighborhood == "Unknown":
+            geo_place = soup.find('meta', {'name': 'geo.placename'})
+            if geo_place and geo_place.get('content'):
+                neighborhood = geo_place.get('content')
 
         self.data['neighborhood'] = neighborhood
 
