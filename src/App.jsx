@@ -80,13 +80,32 @@ const App = () => {
     rulesExplained: true,
   });
 
-  const handleStartAudit = () => {
+  const handleStartAudit = async () => {
     if (!propertyUrl) return;
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+
+    try {
+      const response = await fetch('/api/audit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: propertyUrl })
+      });
+
+      if (!response.ok) throw new Error('Audit failed');
+
+      const data = await response.json();
+      setAuditData({
+        ...auditData,
+        price: data.price,
+        neighborhood: data.neighborhood,
+        scamScore: data.scamScore,
+      });
       setStep("audit");
-    }, 1500);
+    } catch (error) {
+      alert('Failed to audit listing: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const toggleLang = () => setLang(lang === "ja" ? "en" : "ja");
