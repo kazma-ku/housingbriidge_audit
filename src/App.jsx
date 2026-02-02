@@ -85,7 +85,7 @@ const App = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/audit', {
+      const response = await fetch('https://housingbriidgeaudit-production.up.railway.app/api/audit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: propertyUrl })
