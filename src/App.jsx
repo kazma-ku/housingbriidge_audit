@@ -25,7 +25,7 @@ const App = () => {
   // Translation Dictionary
   const t = {
     ja: {
-      subtitle: '"安心できるお部屋探しをサポート"',
+      subtitle: '"部屋の安全性を定量的に評価"',
       status: "システム稼働中",
       startAudit: "新規物件のチェックを開始",
       placeholder: "CraigslistまたはFBのURLをペースト...",
@@ -184,7 +184,6 @@ const App = () => {
                 {!loading && <ArrowRight className="w-5 h-5" />}
               </button>
             </div>
-
           </div>
         )}
 
@@ -205,7 +204,7 @@ const App = () => {
                 onClick={() => setStep("report")}
                 className="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 transition shadow-lg"
               >
-{lang === "ja" ? "レポート作成" : "Generate Report"}
+                {lang === "ja" ? "レポート作成" : "Generate Report"}
               </button>
             </div>
 
