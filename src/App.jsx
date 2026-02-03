@@ -185,25 +185,6 @@ const App = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
-              {t[lang].features.map((feature, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 bg-white rounded-xl border border-slate-100 shadow-sm flex items-center gap-3"
-                >
-                  <div className="p-2 bg-blue-50 rounded-lg">
-                    {idx === 0 && <Lock className="text-blue-500 w-4 h-4" />}
-                    {idx === 1 && <Wifi className="text-blue-500 w-4 h-4" />}
-                    {idx === 2 && (
-                      <FileText className="text-blue-500 w-4 h-4" />
-                    )}
-                  </div>
-                  <span className="text-sm font-bold text-slate-700">
-                    {feature}
-                  </span>
-                </div>
-              ))}
-            </div>
           </div>
         )}
 
@@ -224,7 +205,7 @@ const App = () => {
                 onClick={() => setStep("report")}
                 className="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 transition shadow-lg"
               >
-                {t[lang].generate}
+{lang === "ja" ? "レポート作成" : "Generate Report"}
               </button>
             </div>
 
