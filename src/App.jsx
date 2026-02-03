@@ -25,15 +25,15 @@ const App = () => {
   // Translation Dictionary
   const t = {
     ja: {
-      subtitle: '"住宅への不安を、技術的な確信へ。"',
+      subtitle: '"安心できるお部屋探しをサポート"',
       status: "システム稼働中",
-      startAudit: "新規物件監査を開始",
+      startAudit: "新規物件のチェックを開始",
       placeholder: "CraigslistまたはFBのURLをペースト...",
-      runBtn: "フォレンジック監査を実行",
+      runBtn: "セキュリティチェックを実行",
       analyzing: "解析中...",
-      features: ["詐欺検知", "ネット環境監査", "契約ロジック"],
-      auditConfig: "監査設定",
-      generate: "クライアント用レポート作成",
+      // features: ["詐欺検知", "ネット環境監査", "契約ロジック"],
+      auditConfig: "設定",
+      // generate: "クライアント用レポート作成",
       propDetails: "物件詳細",
       price: "家賃 ($)",
       area: "エリア",
@@ -53,9 +53,9 @@ const App = () => {
       placeholder: "Paste Craigslist or FB Listing URL...",
       runBtn: "Run Forensic Audit",
       analyzing: "Analyzing Listing...",
-      features: ["Scam Detection", "Network Audit", "Contract Logic"],
-      auditConfig: "Audit Configuration",
-      generate: "Generate Client Report",
+      // features: ["Scam Detection", "Network Audit", "Contract Logic"],
+      auditConfig: "Configuration",
+      // generate: "Generate Client Report",
       propDetails: "Property Details",
       price: "Price ($)",
       area: "Neighborhood",
@@ -85,13 +85,16 @@ const App = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('https://housingbriidgeaudit-production.up.railway.app/api/audit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: propertyUrl })
-      });
+      const response = await fetch(
+        "https://housingbriidgeaudit-production.up.railway.app/api/audit",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: propertyUrl }),
+        },
+      );
 
-      if (!response.ok) throw new Error('Audit failed');
+      if (!response.ok) throw new Error("Audit failed");
 
       const data = await response.json();
       setAuditData({
@@ -102,7 +105,7 @@ const App = () => {
       });
       setStep("audit");
     } catch (error) {
-      alert('Failed to audit listing: ' + error.message);
+      alert("Failed to audit listing: " + error.message);
     } finally {
       setLoading(false);
     }
