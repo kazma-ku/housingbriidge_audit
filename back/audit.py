@@ -79,9 +79,33 @@ class PropertyAuditEngine:
                     if hood_text and len(hood_text) > 2:
                         neighborhood = hood_text
 
-        # Try 3: Look for location in posting body or attributes
+        # Try 3: Extract location from description text (most useful for specific locations)
         if neighborhood == "Unknown":
-            # Check for "near" mentions in attrgroup
+            desc_text = self.data.get('description', '')
+            found_location = None
+
+            # Priority 1: Look for area names in parentheses like "(Cambie Village area)"
+            area_match = re.search(r'\(([A-Z][a-zA-Z\s]+(?:area|village|heights|district))\)', desc_text, re.IGNORECASE)
+            if area_match:
+                found_location = area_match.group(1).strip()
+
+            # Priority 2: Look for street intersection patterns like "18th Avenue and Cambie"
+            if not found_location:
+                street_match = re.search(r'(\d+(?:st|nd|rd|th)?\s+(?:Ave|Avenue|St|Street|Drive|Road|Way|Blvd)\s+(?:and|&)\s+[A-Z][a-zA-Z]+)', desc_text, re.IGNORECASE)
+                if street_match:
+                    found_location = street_match.group(1).strip()
+
+            # Priority 3: Look for "in [Location]" patterns
+            if not found_location:
+                location_match = re.search(r'(?:in|at|near)\s+([A-Z][a-zA-Z\s]+(?:Vancouver|Burnaby|Richmond|Surrey|Coquitlam|Westminster))', desc_text)
+                if location_match:
+                    found_location = location_match.group(1).strip()
+
+            if found_location:
+                neighborhood = found_location
+
+        # Try 4: Look for location in attrgroup
+        if neighborhood == "Unknown":
             skip_words = ['parking', 'laundry', 'washer', 'dryer', 'furnished', 'renovated', 'bedroom', 'bathroom', 'kitchen', 'floor', 'unit', 'apartment', 'suite', 'rent', 'lease', 'deposit', 'available', 'included', 'utilities']
             location_words = ['near', 'downtown', 'west van', 'east van', 'north van', 'burnaby', 'richmond', 'surrey', 'coquitlam', 'new west', 'kitsilano', 'kerrisdale', 'marpole', 'cambie', 'main st', 'commercial', 'metrotown', 'ubc', 'sfu']
             for attr in soup.find_all(class_='attrgroup'):
@@ -89,7 +113,6 @@ class PropertyAuditEngine:
                 for span in spans:
                     text = span.get_text(strip=True)
                     text_lower = text.lower()
-                    # Skip if it contains common non-location terms
                     if any(skip in text_lower for skip in skip_words):
                         continue
                     if text and not text.startswith(('$', 'ft', 'br', 'ba')):
@@ -97,21 +120,18 @@ class PropertyAuditEngine:
                             neighborhood = text
                             break
 
-        # Try 4: Extract from page title (before the dash)
+        # Try 5: Extract from page title (before the dash)
         if neighborhood == "Unknown":
             title_tag = soup.find('title')
             if title_tag:
                 title_text = title_tag.get_text()
-                # Craigslist titles: "Location info - category - craigslist"
-                # Get text before first dash
                 if ' - ' in title_text:
                     location_part = title_text.split(' - ')[0].strip()
-                    # Remove any parenthetical info like (renovated)
                     location_part = re.sub(r'\s*\([^)]*\)\s*', '', location_part).strip()
                     if location_part and len(location_part) > 3:
                         neighborhood = location_part
 
-        # Try 5: Look for geo.placename meta tag (more specific than geo.region)
+        # Try 6: Look for geo.placename meta tag
         if neighborhood == "Unknown":
             geo_place = soup.find('meta', {'name': 'geo.placename'})
             if geo_place and geo_place.get('content'):
